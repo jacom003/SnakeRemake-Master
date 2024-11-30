@@ -6,6 +6,13 @@ package org.psnbtech;
  * @author Brendan Jones
  *
  */
+
+/*
+this is going to be a long comment 
+to test wheather this finally worked 
+or not and if it did work then we can 
+move on to the next phase
+*/
 public class Clock {
 	
 	/**

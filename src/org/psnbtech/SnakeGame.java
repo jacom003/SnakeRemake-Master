@@ -15,7 +15,7 @@ import javax.swing.JFrame;
  *
  */
 public class SnakeGame extends JFrame {
-		
+
 	/**
 	 * The Serial Version UID.
 	 */
@@ -25,80 +25,80 @@ public class SnakeGame extends JFrame {
 	 * The number of milliseconds that should pass between each frame.
 	 */
 	private static final long FRAME_TIME = 1000L / 50L;
-	
+
 	/**
 	 * The minimum length of the snake. This allows the snake to grow
 	 * right when the game starts, so that we're not just a head moving
 	 * around on the board.
 	 */
 	private static final int MIN_SNAKE_LENGTH = 5;
-	
+
 	/**
 	 * The maximum number of directions that we can have polled in the
 	 * direction list.
 	 */
 	private static final int MAX_DIRECTIONS = 3;
-	
+
 	/**
 	 * The BoardPanel instance.
 	 */
 	private BoardPanel board;
-	
+
 	/**
 	 * The SidePanel instance.
 	 */
 	private SidePanel side;
-	
+
 	/**
 	 * The random number generator (used for spawning fruits).
 	 */
 	private Random random;
-	
+
 	/**
 	 * The Clock instance for handling the game logic.
 	 */
 	private Clock logicTimer;
-	
+
 	/**
 	 * Whether or not we're running a new game.
 	 */
 	private boolean isNewGame;
-		
+
 	/**
 	 * Whether or not the game is over.
 	 */
 	private boolean isGameOver;
-	
-	/**	
+
+	/**
 	 * Whether or not the game is paused.
 	 */
 	private boolean isPaused;
-	
+
 	/**
 	 * The list that contains the points for the snake.
 	 */
 	private LinkedList<Point> snake;
-	
+
 	/**
 	 * The list that contains the queued directions.
 	 */
 	private LinkedList<Direction> directions;
-	
+
 	/**
 	 * The current score.
 	 */
 	private int score;
-	
+
 	/**
 	 * The number of fruits that we've eaten.
 	 */
 	private int fruitsEaten;
-	
+
 	/**
 	 * The number of points that the next fruit will award us.
 	 */
 	private int nextFruitScore;
-	
+
 	/**
 	 * Creates a new SnakeGame instance. Creates a new window,
 	 * and sets up the controller input.
@@ -108,28 +108,28 @@ public class SnakeGame extends JFrame {
 		setLayout(new BorderLayout());
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(false);
-				
+
 		/*
 		 * Initialize the game's panels and add them to the window.
 		 */
 		this.board = new BoardPanel(this);
 		this.side = new SidePanel(this);
-		
+
 		add(board, BorderLayout.CENTER);
 		add(side, BorderLayout.EAST);
-		
+
 		/*
-		 * Adds a new key listener to the frame to process input. 
+		 * Adds a new key listener to the frame to process input.
 		 */
 		addKeyListener(new KeyAdapter() {
-			
+
 			@Override
 			public void keyPressed(KeyEvent e) {
 				switch(e.getKeyCode()) {
 
 				/*
 				 * If the game is not paused, and the game is not over...
-				 * 
+				 *
 				 * Ensure that the direction list is not full, and that the most
 				 * recent direction is adjacent to North before adding the
 				 * direction to the list.
@@ -148,11 +148,11 @@ public class SnakeGame extends JFrame {
 
 				/*
 				 * If the game is not paused, and the game is not over...
-				 * 
+				 *
 				 * Ensure that the direction list is not full, and that the most
 				 * recent direction is adjacent to South before adding the
 				 * direction to the list.
-				 */	
+				 */
 				case KeyEvent.VK_S:
 				case KeyEvent.VK_DOWN:
 					if(!isPaused && !isGameOver) {
@@ -164,14 +164,14 @@ public class SnakeGame extends JFrame {
 						}
 					}
 					break;
-				
+
 				/*
 				 * If the game is not paused, and the game is not over...
-				 * 
+				 *
 				 * Ensure that the direction list is not full, and that the most
 				 * recent direction is adjacent to West before adding the
 				 * direction to the list.
-				 */						
+				 */
 				case KeyEvent.VK_A:
 				case KeyEvent.VK_LEFT:
 					if(!isPaused && !isGameOver) {
@@ -183,14 +183,14 @@ public class SnakeGame extends JFrame {
 						}
 					}
 					break;
-			
+
 				/*
 				 * If the game is not paused, and the game is not over...
-				 * 
+				 *
 				 * Ensure that the direction list is not full, and that the most
 				 * recent direction is adjacent to East before adding the
 				 * direction to the list.
-				 */		
+				 */
 				case KeyEvent.VK_D:
 				case KeyEvent.VK_RIGHT:
 					if(!isPaused && !isGameOver) {
@@ -202,7 +202,7 @@ public class SnakeGame extends JFrame {
 						}
 					}
 					break;
-				
+
 				/*
 				 * If the game is not over, toggle the paused flag and update
 				 * the logicTimer's pause flag accordingly.
@@ -213,7 +213,7 @@ public class SnakeGame extends JFrame {
 						logicTimer.setPaused(isPaused);
 					}
 					break;
-				
+
 				/*
 				 * Reset the game if one is not currently in progress.
 				 */
@@ -224,9 +224,9 @@ public class SnakeGame extends JFrame {
 					break;
 				}
 			}
-			
+
 		});
-		
+
 		/*
 		 * Resize the window to the appropriate size, center it on the
 		 * screen and display it.
@@ -235,7 +235,7 @@ public class SnakeGame extends JFrame {
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}
-	
+
 	/**
 	 * Starts the game running.
 	 */
@@ -248,7 +248,7 @@ public class SnakeGame extends JFrame {
 		this.directions = new LinkedList<>();
 		this.logicTimer = new Clock(9.0f);
 		this.isNewGame = true;
-		
+
 		//Set the timer to paused initially.
 		logicTimer.setPaused(true);
 
@@ -259,21 +259,21 @@ public class SnakeGame extends JFrame {
 		while(true) {
 			//Get the current frame's start time.
 			long start = System.nanoTime();
-			
+
 			//Update the logic timer.
 			logicTimer.update();
-			
+
 			/*
 			 * If a cycle has elapsed on the logic timer, then update the game.
 			 */
 			if(logicTimer.hasElapsedCycle()) {
 				updateGame();
 			}
-			
+
 			//Repaint the board and side panel with the new content.
 			board.repaint();
 			side.repaint();
-			
+
 			/*
 			 * Calculate the delta time between since the start of the frame
 			 * and sleep for the excess time to cap the frame rate. While not
@@ -289,27 +289,27 @@ public class SnakeGame extends JFrame {
 			}
 		}
 	}
-	
+
 	/**
 	 * Updates the game's logic.
 	 */
 	private void updateGame() {
 		/*
-		 * Gets the type of tile that the head of the snake collided with. If 
+		 * Gets the type of tile that the head of the snake collided with. If
 		 * the snake hit a wall, SnakeBody will be returned, as both conditions
 		 * are handled identically.
 		 */
 		TileType collision = updateSnake();
-		
+
 		/*
 		 * Here we handle the different possible collisions.
-		 * 
+		 *
 		 * Fruit: If we collided with a fruit, we increment the number of
 		 * fruits that we've eaten, update the score, and spawn a new fruit.
-		 * 
+		 *
 		 * SnakeBody: If we collided with our tail (or a wall), we flag that
 		 * the game is over and pause the game.
-		 * 
+		 *
 		 * If no collision occurred, we simply decrement the number of points
 		 * that the next fruit will give us if it's high enough. This adds a
 		 * bit of skill to the game as collecting fruits more quickly will
@@ -326,7 +326,7 @@ public class SnakeGame extends JFrame {
 			nextFruitScore--;
 		}
 	}
-	
+
 	/**
 	 * Updates the snake's position and size.
 	 * @return Tile tile that the head moved into.
@@ -340,30 +340,30 @@ public class SnakeGame extends JFrame {
 		 * it will not move).
 		 */
 		Direction direction = directions.peekFirst();
-				
+
 		/*
 		 * Here we calculate the new point that the snake's head will be at
 		 * after the update.
-		 */		
+		 */
 		Point head = new Point(snake.peekFirst());
 		switch(direction) {
 		case North:
 			head.y--;
 			break;
-			
+
 		case South:
 			head.y++;
 			break;
-			
+
 		case West:
 			head.x--;
 			break;
-			
+
 		case East:
 			head.x++;
 			break;
 		}
-		
+
 		/*
 		 * If the snake has moved out of bounds ('hit' a wall), we can just
 		 * return that it's collided with itself, as both cases are handled
@@ -372,12 +372,12 @@ public class SnakeGame extends JFrame {
 		if(head.x < 0 || head.x >= BoardPanel.COL_COUNT || head.y < 0 || head.y >= BoardPanel.ROW_COUNT) {
 			return TileType.SnakeBody; //Pretend we collided with our body.
 		}
-		
+
 		/*
 		 * Here we get the tile that was located at the new head position and
 		 * remove the tail from of the snake and the board if the snake is
 		 * long enough, and the tile it moved onto is not a fruit.
-		 * 
+		 *
 		 * If the tail was removed, we need to retrieve the old tile again
 		 * incase the tile we hit was the tail piece that was just removed
 		 * to prevent a false game over.
@@ -388,15 +388,15 @@ public class SnakeGame extends JFrame {
 			board.setTile(tail, null);
 			old = board.getTile(head.x, head.y);
 		}
-		
+
 		/*
 		 * Update the snake's position on the board if we didn't collide with
 		 * our tail:
-		 * 
+		 *
 		 * 1. Set the old head position to a body tile.
 		 * 2. Add the new head to the snake.
 		 * 3. Set the new head position to a head tile.
-		 * 
+		 *
 		 * If more than one direction is in the queue, poll it to read new
 		 * input.
 		 */
@@ -408,10 +408,10 @@ public class SnakeGame extends JFrame {
 				directions.poll();
 			}
 		}
-				
+
 		return old;
 	}
-	
+
 	/**
 	 * Resets the game's variables to their default states and starts a new game.
 	 */
@@ -422,13 +422,13 @@ public class SnakeGame extends JFrame {
 		 */
 		this.score = 0;
 		this.fruitsEaten = 0;
-		
+
 		/*
 		 * Reset both the new game and game over flags.
 		 */
 		this.isNewGame = false;
 		this.isGameOver = false;
-		
+
 		/*
 		 * Create the head at the center of the board.
 		 */
@@ -439,31 +439,31 @@ public class SnakeGame extends JFrame {
 		 */
 		snake.clear();
 		snake.add(head);
-		
+
 		/*
 		 * Clear the board and add the head.
 		 */
 		board.clearBoard();
 		board.setTile(head, TileType.SnakeHead);
-		
+
 		/*
 		 * Clear the directions and add north as the
 		 * default direction.
 		 */
 		directions.clear();
 		directions.add(Direction.North);
-		
+
 		/*
 		 * Reset the logic timer.
 		 */
 		logicTimer.reset();
-		
+
 		/*
 		 * Spawn a new fruit.
 		 */
 		spawnFruit();
 	}
-	
+
 	/**
 	 * Gets the flag that indicates whether or not we're playing a new game.
 	 * @return The new game flag.
@@ -471,7 +471,7 @@ public class SnakeGame extends JFrame {
 	public boolean isNewGame() {
 		return isNewGame;
 	}
-	
+
 	/**
 	 * Gets the flag that indicates whether or not the game is over.
 	 * @return The game over flag.
@@ -479,7 +479,7 @@ public class SnakeGame extends JFrame {
 	public boolean isGameOver() {
 		return isGameOver;
 	}
-	
+
 	/**
 	 * Gets the flag that indicates whether or not the game is paused.
 	 * @return The paused flag.
@@ -487,7 +487,7 @@ public class SnakeGame extends JFrame {
 	public boolean isPaused() {
 		return isPaused;
 	}
-	
+
 	/**
 	 * Spawns a new fruit onto the board.
 	 */
@@ -499,12 +499,12 @@ public class SnakeGame extends JFrame {
 		 * Get a random index based on the number of free spaces left on the board.
 		 */
 		int index = random.nextInt(BoardPanel.COL_COUNT * BoardPanel.ROW_COUNT - snake.size());
-		
+
 		/*
 		 * While we could just as easily choose a random index on the board
 		 * and check it if it's free until we find an empty one, that method
 		 * tends to hang if the snake becomes very large.
-		 * 
+		 *
 		 * This method simply loops through until it finds the nth free index
 		 * and selects uses that. This means that the game will be able to
 		 * locate an index at a relatively constant rate regardless of the
@@ -523,7 +523,7 @@ public class SnakeGame extends JFrame {
 			}
 		}
 	}
-	
+
 	/**
 	 * Gets the current score.
 	 * @return The score.
@@ -531,7 +531,7 @@ public class SnakeGame extends JFrame {
 	public int getScore() {
 		return score;
 	}
-	
+
 	/**
 	 * Gets the number of fruits eaten.
 	 * @return The fruits eaten.
@@ -539,7 +539,7 @@ public class SnakeGame extends JFrame {
 	public int getFruitsEaten() {
 		return fruitsEaten;
 	}
-	
+
 	/**
 	 * Gets the next fruit score.
 	 * @return The next fruit score.
@@ -547,7 +547,7 @@ public class SnakeGame extends JFrame {
 	public int getNextFruitScore() {
 		return nextFruitScore;
 	}
-	
+
 	/**
 	 * Gets the current direction of the snake.
 	 * @return The current direction.
@@ -555,7 +555,7 @@ public class SnakeGame extends JFrame {
 	public Direction getDirection() {
 		return directions.peek();
 	}
-	
+
 	/**
 	 * Entry point of the program.
 	 * @param args Unused.

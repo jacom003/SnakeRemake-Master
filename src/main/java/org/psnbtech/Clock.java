@@ -57,13 +57,16 @@ public class Clock {
 	 * to 0, the last update time will be reset to the current time, and the
 	 * paused flag will be set to false.
 	 */
+	
+	/*
 	public void reset() {
 		this.elapsedCycles = 0;
 		this.excessCycles = 0.0f;
 		this.lastUpdate = getCurrentTime();
 		this.isPaused = false;
 	}
-
+	*/
+	
 	/**
 	 * Updates the clock stats. The number of elapsed cycles, as well as the
 	 * cycle excess will be calculated only if the clock is not paused. This

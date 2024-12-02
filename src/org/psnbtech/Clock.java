@@ -39,6 +39,8 @@ public class Clock {
 	 * Creates a new clock and sets it's cycles-per-second.
 	 * @param cyclesPerSecond The number of cycles that elapse per second.
 	 */
+	
+	
 	/*
 	public Clock(float cyclesPerSecond) {
 		setCyclesPerSecond(cyclesPerSecond);
@@ -46,6 +48,8 @@ public class Clock {
 	}
 	*/
 
+	
+	
 	/**
 	 * Sets the number of cycles that elapse per second.
 	 * @param cyclesPerSecond The number of cycles per second.

@@ -58,14 +58,14 @@ public class Clock {
 	 * paused flag will be set to false.
 	 */
 	
-	
+	/*
 	public void reset() {
 		this.elapsedCycles = 0;
 		this.excessCycles = 0.0f;
 		this.lastUpdate = getCurrentTime();
 		this.isPaused = false;
 	}
-	
+	*/
 	
 	/**
 	 * Updates the clock states. The number of elapsed cycles, as well as the

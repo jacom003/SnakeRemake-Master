@@ -53,7 +53,7 @@ public class Clock {
 	}
 
 	/**
-	 * Resets the clock stats. Elapsed cycles and cycle excess will be reset
+	 * Resets the clock states. Elapsed cycles and cycle excess will be reset
 	 * to 0, the last update time will be reset to the current time, and the
 	 * paused flag will be set to false.
 	 */
@@ -68,7 +68,7 @@ public class Clock {
 	
 	
 	/**
-	 * Updates the clock stats. The number of elapsed cycles, as well as the
+	 * Updates the clock states. The number of elapsed cycles, as well as the
 	 * cycle excess will be calculated only if the clock is not paused. This
 	 * method should be called every frame even when paused to prevent any
 	 * nasty surprises with the delta time.
